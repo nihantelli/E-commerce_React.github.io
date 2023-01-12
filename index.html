@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BOOKSTORE</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+      integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="./assets/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="./assets/toastr/toastr.min.css" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container-fluid">
+      <!-- NAVBAR START -->
+      <nav class="navbar">
+        <div class="title"><i class="bi bi-book i-2x"></i> BOOK STORE</div>
+
+        <ul class="nav_icons">
+          <li>
+            <i class="user bi bi-person"></i>
+          </li>
+
+          <li class="basket_icon" onclick="toggleModal()">
+            <i class="bi bi-bag">
+              <span class="basket_count"></span>
+            </i>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- NAVBAR END -->
+      <!-- FORM START -->
+      <div class="form">
+        <div class="login-form">
+          <a href="javascript:void(0);" class="form-cancel">
+            <i class="fas fa-times"></i>
+          </a>
+          <strong>Log In</strong>
+
+          <form>
+            <input
+              type="email"
+              name="email"
+              placeholder="Example@gmail.com"
+              required
+            />
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              required
+            />
+            <input type="submit" value="Log In" />
+          </form>
+
+          <div class="form-btns">
+            <a href="#" class="forget">Forget Your Password?</a>
+            <a href="javascript:void(0);" class="sign-up-btn">Create Account</a>
+          </div>
+        </div>
+
+        <div class="sign-up-form">
+          <a href="javascript:void(0);" class="form-cancel">
+            <i class="fas fa-times"></i>
+          </a>
+          <strong>Sign Up</strong>
+
+          <form>
+            <input
+              type="text"
+              name="fullname"
+              placeholder="Full Name"
+              required
+            />
+            <input
+              type="email"
+              name="email"
+              placeholder="Example@gmail.com"
+              required
+            />
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              required
+            />
+            <input type="submit" value="Sign Up" />
+          </form>
+
+          <div class="form-btns">
+            <a href="javascript:void(0);" class="already-account">
+              Already Have Account?</a
+            >
+          </div>
+        </div>
+      </div>
+      <!-- FORM END -->
+      <!-- SLIDER START -->
+      <section class="slider">
+        <div
+          id="carouselBookSlider"
+          class="carousel slide"
+          data-bs-ride="carousel"
+        >
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <img
+                src="https://www.iwemi.com/images/thumbs/0310962.png"
+                class="d-block w-100"
+                alt=""
+              />
+            </div>
+            <div class="carousel-item">
+              <img
+                src="./assets/images/Aralik-Kampanyasi-kategori-1_950x360.jpg"
+                class="d-block w-100"
+                alt=""
+              />
+            </div>
+            <div class="carousel-item">
+              <img
+                src="https://d3525k1ryd2155.cloudfront.net/i/en20/homepage-slides/booksales-l-1170w.webp"
+                class="d-block w-100"
+                alt=""
+              />
+            </div>
+          </div>
+          <button
+            class="carousel-control-prev"
+            type="button"
+            data-bs-target="#carouselBookSlider"
+            data-bs-slide="prev"
+          >
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button
+            class="carousel-control-next"
+            type="button"
+            data-bs-target="#carouselBookSlider"
+            data-bs-slide="next"
+          >
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+      </section>
+      <!-- SLIDER END -->
+      <!--------------- BOOK STORE START -->
+
+      <section class="store my-5 d-flex">
+        <!-- MENU ITEMS START -->
+
+        <ul class="menu"></ul>
+        <!-- MENU ITEMS END -->
+        <!-- BOOK CARD START -->
+        <div class="row book_list"></div>
+      </section>
+      <!-- BOOK CARD END -->
+      <!------------------- BOOK STORE END -->
+      <!-- BASKET START -->
+      <div class="basket_modal">
+        <div class="basket_items">
+          <i class="bi bi-x" onclick="toggleModal()"></i>
+          <h2 class="basket_title">Your items</h2>
+          <ul class="basket_list text-center"></ul>
+          <div class="basket_total">
+            <span class="mb-3 fs-5 total_price"></span
+            ><button class="btn_checkout">CHECKOUT</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- BASKET END  -->
+
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="./assets/jquery/jquery.min.js"></script>
+    <script src="./assets/toastr/toastr.min.js"></script>
+    <script type="text/javascript" src="app.js"></script>
+  </body>
+</html>
