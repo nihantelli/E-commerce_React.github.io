@@ -3,7 +3,9 @@
 //     $(".basket_modal").toggleClass("active");
 //   });
 // });
-
+window.onload = () => {
+  getBooks();
+};
 //MAIN DESCRIPTIONS
 let bookList = [];
 let basketList = [];
@@ -38,35 +40,35 @@ async function getBooks() {
     console.log(err);
   }
 }
-getBooks();
+
 //ADDING STAR COUNT
-const createBookStars = (starRate) => {
-  let starRateHtml = "";
+const createBookStars = (star) => {
+  let starRate = "";
   for (let i = 1; i <= 5; i++) {
-    if (Math.round(starRate) >= i) {
-      starRateHtml += `<i class="bi bi-star-fill active"></i>`;
+    if (Math.round(star) >= i) {
+      starRate += `<i class="bi bi-star-fill active"></i>`;
     } else {
-      starRateHtml += `<i class="bi bi-star-fill"></i>`;
+      starRate += `<i class="bi bi-star-fill"></i>`;
     }
   }
-  return starRateHtml;
+  return starRate;
 };
 //CREATING BOOK STORE CARDS
-const createBookItemsHtml = () => {
-  const bookListEl = document.querySelector(".book_list");
-  let bookListHtml = "";
+const createBookListCards = () => {
+  const bookListAll = document.querySelector(".book_list");
+  let bookListCards = "";
   bookList.forEach((book, index) => {
-    bookListHtml += `
-        <div class="col-5 ${index % 2 == 0 && "offset-2"} my-5">
+    bookListCards += `
+        <div class="col-lg-5 col-md-12 col-sm-12  my-5">
           <div class="row book_card">
-            <div class="col-6">
+            <div class="col-6 ">
               <img
                 class="img-fluid shadow"
                 src="${book.imgSource}"
                 alt=""
               />
             </div>
-            <div class="col-6 d-flex justify-content-between flex-column">
+            <div class="col-6  d-flex justify-content-between flex-column">
               <div class="book_detail">
                 <span class="author text-muted fs-5">${book.author}</span><br />
                 <span class="fs-4">${book.name}</span><br />
@@ -97,8 +99,8 @@ const createBookItemsHtml = () => {
         </div>
     `;
   });
-  bookListEl.innerHTML = bookListHtml
-    ? bookListHtml
+  bookListAll.innerHTML = bookListCards
+    ? bookListCards
     : `    <li class="basket_items">No items here.</li>`;
 };
 //CONVERTING BOOKTYPES FROM TYPE
@@ -112,48 +114,46 @@ const BOOK_TYPES = {
   SCIENCE: "BİLİM",
 };
 //CREATING MENU SIDE
-const createBookTypesHtml = () => {
-  const filterEl = document.querySelector(".menu");
-  let filterHtml = "";
-  let filterTypes = ["ALL"];
+const createBookTypes = () => {
+  const menuSide = document.querySelector(".menu");
+  let menuItems = "";
+  let menuTypes = ["ALL"];
   bookList.forEach((book) => {
-    if (filterTypes.findIndex((a) => a == book.type) == -1)
-      filterTypes.push(book.type);
+    if (menuTypes.findIndex((a) => a == book.type) == -1)
+      menuTypes.push(book.type);
   });
-  filterTypes.forEach((type, index) => {
-    filterHtml += `<li class="${
+  menuTypes.forEach((type, index) => {
+    menuItems += `<li class="${
       index == 0 ? "active" : null
-    }" onclick="filterBooks(this)" data-type="${type}">${
+    }" onclick="categoryBooks(this)" data-type="${type}">${
       BOOK_TYPES[type]
     }</li>`;
   });
-  filterEl.innerHTML = filterHtml;
+  menuSide.innerHTML = menuItems;
 };
 //LISTING BOOKS ACCORDING TO BOOK TYPE
-const filterBooks = (event) => {
+const categoryBooks = (event) => {
   getBooks();
   document.querySelector(".menu .active").classList.remove("active");
   event.classList.add("active");
   let bookType = event.dataset.type;
-
   if (bookType !== "ALL") {
     bookList = bookList.filter((book) => book.type == bookType);
   }
-  createBookItemsHtml();
+  createBookListCards();
 };
 const listBasketItems = () => {
   localStorage.setItem("basketList", basketList);
   const basketListEl = document.querySelector(".basket_list");
   const basketCountEl = document.querySelector(".basket_count");
-
   const totalPriceEl = document.querySelector(".total_price");
-  let basketListHtml = "";
+  let basketListItems = "";
   let totalPrice = 0;
   let totalItem = 0;
   basketList.forEach((item) => {
     totalPrice += item.product.price * item.quantity;
     totalItem += item.quantity;
-    basketListHtml += `
+    basketListItems += `
           <li class="basket_item mt-2">
             <img
               src="${item.product.imgSource}"
@@ -172,27 +172,26 @@ const listBasketItems = () => {
             </div>
           </li>`;
   });
-  basketListEl.innerHTML = basketListHtml
-    ? basketListHtml
+  basketListEl.innerHTML = basketListItems
+    ? basketListItems
     : `<li class="basket__item">No items here.</li>`;
   totalPriceEl.innerHTML = "Total Price:" + totalPrice.toFixed(2) + "₺";
   basketCountEl.innerHTML = totalItem;
 };
-const addBookToBasket = (bookId) => {
-  let findedBook = bookList.find((book) => book.id == bookId);
+const addBookToBasket = (id) => {
+  let findedBook = bookList.find((book) => book.id == id);
   if (findedBook) {
-    const basketAlreadyIndex = basketList.findIndex(
-      (basket) => basket.product.id == bookId
+    const basketIndex = basketList.findIndex(
+      (basket) => basket.product.id == id
     );
-    if (basketAlreadyIndex == -1) {
+    if (basketIndex == -1) {
       let addedItem = { quantity: 1, product: findedBook };
       basketList.push(addedItem);
     } else {
       if (
-        basketList[basketAlreadyIndex].quantity <
-        basketList[basketAlreadyIndex].product.stock
+        basketList[basketIndex].quantity < basketList[basketIndex].product.stock
       )
-        basketList[basketAlreadyIndex].quantity += 1;
+        basketList[basketIndex].quantity += 1;
       else {
         toastr.error("Sorry, we don't have enough stock.");
         return;
@@ -203,30 +202,24 @@ const addBookToBasket = (bookId) => {
   }
 };
 
-const removeItemToBasket = (bookId) => {
-  const findedIndex = basketList.findIndex(
-    (basket) => basket.product.id == bookId
-  );
+const removeItemToBasket = (id) => {
+  const findedIndex = basketList.findIndex((basket) => basket.product.id == id);
   if (findedIndex != -1) {
     basketList.splice(findedIndex, 1);
   }
   listBasketItems();
 };
-const decreaseItemToBasket = (bookId) => {
-  const findedIndex = basketList.findIndex(
-    (basket) => basket.product.id == bookId
-  );
+const decreaseItemToBasket = (id) => {
+  const findedIndex = basketList.findIndex((basket) => basket.product.id == id);
   if (findedIndex != -1) {
     if (basketList[findedIndex].quantity != 1)
       basketList[findedIndex].quantity -= 1;
-    else removeItemToBasket(bookId);
+    else removeItemToBasket(id);
     listBasketItems();
   }
 };
-const increaseItemToBasket = (bookId) => {
-  const findedIndex = basketList.findIndex(
-    (basket) => basket.product.id == bookId
-  );
+const increaseItemToBasket = (id) => {
+  const findedIndex = basketList.findIndex((basket) => basket.product.id == id);
   if (findedIndex != -1) {
     if (
       basketList[findedIndex].quantity < basketList[findedIndex].product.stock
@@ -253,8 +246,8 @@ $(".form-cancel").click(function () {
   $(".form").removeClass("sign-up-active");
 });
 setTimeout(() => {
-  createBookItemsHtml();
-  createBookTypesHtml();
+  createBookListCards();
+  createBookTypes();
 }, 100);
 
 // if (localStorage.getItem("basketList")) {

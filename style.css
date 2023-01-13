@@ -116,11 +116,19 @@ body {
 /* MENU ITEMS END */
 /* BOOK CARD START */
 .store {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
   width: 80%;
   margin-left: 10%;
 }
+.book_list {
+  margin-left: 20%;
+}
 .book_card {
+  margin-left: 20px;
   height: 400px;
+  width: auto;
 }
 .book_card img {
   height: 400px;
@@ -203,6 +211,7 @@ body {
   width: 450px;
 }
 .basket_items {
+  padding-left: 20px;
   position: relative;
   width: 450px;
   background-color: rgb(239, 240, 233);
@@ -210,6 +219,7 @@ body {
   float: right;
 }
 .basket_items .bi-x {
+  padding-left: 20px;
   position: absolute;
   left: 0;
   top: 0;
@@ -384,3 +394,104 @@ body {
   animation: fade 0.3s;
 }
 /* FORM END */
+@media (max-width: 480px) {
+  .slider {
+    display: none;
+  }
+
+  .navbar {
+    text-align: center;
+    height: 100px;
+    width: 100%;
+    margin: 0;
+  }
+  .nav_icons {
+    font-size: 25px;
+    margin: 10px 20px 0 0;
+  }
+  .title {
+    font-weight: bold;
+    font-size: 25px;
+    color: var(--main);
+    margin-left: 20px;
+  }
+  .menu {
+    top: 0;
+    display: flex;
+    flex-direction: row;
+
+    margin-bottom: 300px;
+  }
+  .menu li {
+    font-size: 12px;
+    padding: 6px;
+  }
+  .store {
+    margin-left: 0px;
+    position: relative;
+    bottom: 70px;
+    width: 100%;
+  }
+  .book_list {
+    margin: 40px 0 0 0;
+  }
+  .book_card {
+    margin: 0;
+    width: 400px;
+  }
+  .menu li:hover {
+    height: 45px;
+  }
+}
+@media (min-width: 481px) and (max-width: 768px) {
+  .menu {
+    top: 0;
+    display: flex;
+    flex-direction: row;
+
+    margin-bottom: 250px;
+  }
+  .menu li {
+    font-size: 13px;
+    padding: 7px;
+  }
+  .store {
+    margin: 0 0 100px 0;
+    position: relative;
+    width: 100%;
+  }
+  .book_list {
+    margin: 50px 0 0 5%;
+  }
+  .book_card {
+    margin: 0;
+    width: 450px;
+  }
+  .menu li:hover {
+    height: 45px;
+  }
+}
+@media (min-width: 769px) and (max-width: 1024px) {
+  .menu {
+    font-size: 12px;
+    margin-right: 50px;
+  }
+  .store {
+    width: 90%;
+  }
+  .book_card {
+    margin-left: 50px;
+    width: 450px;
+  }
+  .menu li:hover {
+    width: 100px;
+  }
+}
+@media (min-width: 1025px) and (max-width: 1200px) {
+  .menu {
+    font-size: 15px;
+  }
+  .store {
+    width: 100%;
+  }
+}
